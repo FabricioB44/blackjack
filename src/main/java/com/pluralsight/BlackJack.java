@@ -61,6 +61,7 @@ public class BlackJack {
                         System.out.print(playerNames[i] + "'s ");
                         playerHands[i].print();
                         int totalAmount = playerHands[i].getValue();
+                        handValues[i] = totalAmount;
                         System.out.println("\nTotal amount in hand: " + totalAmount);
                         if (totalAmount > 21) {
                             System.out.println(playerNames[i] + " busted!");
