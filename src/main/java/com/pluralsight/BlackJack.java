@@ -5,11 +5,20 @@ import java.util.Scanner;
 public class BlackJack {
     public static void main(String[] args) {
         Scanner myScanner = new Scanner(System.in);
-        System.out.print("Number of players: ");
-        int playerNum = Integer.parseInt(myScanner.nextLine());
+        int playerNum;
+        while (true) {
+            try {
+                System.out.print("Number of players: ");
+                playerNum = Integer.parseInt(myScanner.nextLine());
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid input, try again!");
+            }
+        }
 
         String[] playerNames = new String[playerNum];
         Hand[] playerHands = new Hand[playerNum];
+        System.out.println();
 
 
         for (int i = 0; i < playerNum; i++){
@@ -31,22 +40,28 @@ public class BlackJack {
 
         for (int i = 0; i < playerNum; i++){
             handValues[i] = playerHands[i].getValue();
-            System.out.println(playerHands[i].getValue());
+            System.out.println();
+            System.out.print(playerNames[i] + "'s ");
+            playerHands[i].print();
+            System.out.println("Total amount in hand: " + playerHands[i].getValue());
         }
 
-        int closest = getClosestTo21(handValues);
-        System.out.println(closest);
+        System.out.println();
+        int winnerIndex = getClosestTo21(handValues);
+        System.out.printf("%s wins with %d points!", playerNames[winnerIndex], playerHands[winnerIndex].getValue());
     }
 
     public static Integer getClosestTo21(int[] handValues) {
         int closestTo21 = 0;
-        for (int handValue : handValues) {
-            if (handValue <= 21) {
-                if (closestTo21 == 0 || handValue > closestTo21) {
-                    closestTo21 = handValue;
+        int winnerIndex = -1;
+        for (int i = 0; i < handValues.length; i++) {
+            if (handValues[i] <= 21) {
+                if (closestTo21 == 0 || handValues[i] > closestTo21) {
+                    closestTo21 = handValues[i];
+                    winnerIndex = i;
                 }
             }
         }
-        return closestTo21;
+        return winnerIndex;
     }
 }
