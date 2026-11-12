@@ -46,6 +46,38 @@ public class BlackJack {
             System.out.println("Total amount in hand: " + playerHands[i].getValue());
         }
 
+        for (int i = 0; i < playerNum; i++){
+            while (true) {
+                try {
+                    System.out.println();
+                    System.out.print(playerNames[i] + " would you like to hit or stand? (H/S):  ");
+                    String playerAnswer = myScanner.nextLine();
+                    if (playerAnswer.equalsIgnoreCase("H")){
+                        System.out.println("Choose to hit\n");
+                        Card newCard = deck.deal();
+                        System.out.println(newCard.toString());
+                        System.out.println();
+                        playerHands[i].deal(newCard);
+                        System.out.print(playerNames[i] + "'s ");
+                        playerHands[i].print();
+                        int totalAmount = playerHands[i].getValue();
+                        System.out.println("\nTotal amount in hand: " + totalAmount);
+                        if (totalAmount > 21) {
+                            System.out.println(playerNames[i] + " busted!");
+                            break;
+                        }
+                    } else if (playerAnswer.equalsIgnoreCase("S")) {
+                        System.out.println("Choose to stand");
+                        break;
+                    } else {
+                        System.out.println("Invalid input, try again!");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input, try again!");
+                }
+            }
+        }
+
         System.out.println();
         int winnerIndex = getClosestTo21(handValues);
         System.out.printf("%s wins with %d points!", playerNames[winnerIndex], playerHands[winnerIndex].getValue());
